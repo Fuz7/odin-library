@@ -1,8 +1,15 @@
+let navbar = document.getElementById('nav')
+let sidebar = document.getElementById('info')
+let mainContainer = document.getElementById('mainContainer')
+
 let form = document.getElementById('form')
 let submitButton = document.getElementById('menuAdd')
 let totalPage = document.getElementById('totalPage')
 let completedPage = document.getElementById('addCompleted')
 let completedLog = document.getElementById('completedLog')
+let menuContainer = document.getElementById('addContainer')
+let menuButton = document.getElementById('addButton')
+let cancelButton = document.getElementById('menuDelete')
 
 
 // Menu authentication // -->
@@ -38,6 +45,21 @@ submitButton.addEventListener('click', function(e) {
     }
 })
 
-
-
 // Menu authenthication // <--
+
+
+// Menu Opening & Closing // -->
+
+function closeMenu(){
+    menuContainer.classList.remove('active')
+}
+
+function openMenu(){
+    menuContainer.classList.add('active')
+}
+
+menuButton.addEventListener('click', () => openMenu())
+
+cancelButton.addEventListener('click', () => closeMenu())
+
+// Menu Opening & Closing // <--

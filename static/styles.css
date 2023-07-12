@@ -53,6 +53,7 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .addMenu{
@@ -186,4 +187,12 @@ form{
     position: absolute;
     content: "* Completed Pages Must be equal or lower than Total Pages";
     color: red;
+}
+
+.addContainer{
+    display: none;
+}
+
+.addContainer.active{
+    display: flex;
 }
