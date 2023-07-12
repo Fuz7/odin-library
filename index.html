@@ -10,5 +10,44 @@
 <body>
    <nav></nav> 
    <div class="info"></div>
+   <main class="mainContainer">
+        <button class="addButton">+</button>
+   </main>
+   <div class="addContainer">
+        <div class="addMenu">
+            <div class="menuTitle"><p> Add a New Book</p></div>
+            <div class="menuInputs">   
+
+            <form id="form" novalidate>
+
+                <div class="menuOption">
+                    <input id="addTitle" type="text" required>
+                    <label for="addTitle">Title</label>
+                </div>
+                        
+                <div class="menuOption">
+                    <input id="addAuthor" type="text" required>
+                    <label for="addAuthor">Author</label>
+                </div>
+                
+                <div class="menuOption">
+                    <input id="totalPage" type="number" min="1" required>
+                    <label for="totalPage">Total Pages</label>
+                </div>
+                
+                <div class="menuOption">
+                    <input placeholder=" " id="addCompleted" type="number" min="0" required>
+                    <label for="addCompleted">Completed Pages</label>
+                    <p id="completedLog"></p>
+                </div>
+                
+            </form>
+
+            </div>
+
+            <button class="menuDelete">Cancel</button>
+            <button id="menuAdd" class="menuAdd">Add</button>
+        </div>
+   </div>
 </body>
 </html>
