@@ -8,24 +8,23 @@ let completedLog = document.getElementById('completedLog')
 // Menu authentication // -->
 
 totalPage.addEventListener('input', function(){
-    if (totalPage.valueAsNumber < completedPage.valueAsNumber){
-        completedLog.classList.add('invalid')
-    } else if(totalPage.valueAsNumber >= completedPage.valueAsNumber){
-        completedLog.classList.remove('invalid')
-        completedPage.setCustomValidity('')
-    }
+    toggleLog()
 })
 
 
 
 completedPage.addEventListener('input', function(){
+    toggleLog()
+})
+
+function toggleLog(){
     if (totalPage.valueAsNumber > completedPage.valueAsNumber){
         completedLog.classList.add('invalid')
     } else if(totalPage.valueAsNumber <= completedPage.valueAsNumber){
         completedLog.classList.remove('invalid')
         completedPage.setCustomValidity('')
     }
-})
+}
 
 submitButton.addEventListener('click', function(e) {
     e.preventDefault()
@@ -38,5 +37,7 @@ submitButton.addEventListener('click', function(e) {
         form.reportValidity()
     }
 })
+
+
 
 // Menu authenthication // <--
