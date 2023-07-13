@@ -16,9 +16,28 @@ let menuContainer = document.getElementById('addContainer')
 let menuButton = document.getElementById('addButton')
 let cancelButton = document.getElementById('menuDelete')
 
+let minusButtons = document.getElementsByClassName('minusButton')
+let plusButtons = document.getElementsByClassName('plusButton')
+minusButtons = Array.from(minusButtons)
+
+let book1 = new Book("Atomic Habits","James Clear",242,10, 1)
+addToLibrary(book1)
+let book2 = new Book("Can't Hurt Me","David Goggins",230, 132, 2)
+addToLibrary(book2)
+
 let card = document.getElementsByClassName('card')
 card = Array.from(card)
 let bookIndex = Number((card[card.length - 1]).getAttribute('data-book')) +  1
+
+let myLibraryStorage = [];
+myLibraryStorage.push(book1)
+myLibraryStorage.push(book2)
+
+
+
+
+
+
 
 // Menu authentication // -->
 
@@ -48,8 +67,10 @@ submitButton.addEventListener('click', function(e) {
         let newBook = new Book(titleInput.value,authorInput.value,
             totalPage.valueAsNumber,currentPage.valueAsNumber,bookIndex)
         addToLibrary(newBook)
+        myLibraryStorage.push(newBook)
         bookIndex++
         closeMenu()
+        emptyAddInput()
 
     } else if(completedLog.classList.contains('invalid')){
         currentPage.setCustomValidity('Completed page is higher than total page')
@@ -83,9 +104,11 @@ menuButton.addEventListener('click', () => openMenu())
 
 cancelButton.addEventListener('click', () => closeMenu())
 
+
 // Menu Opening & Closing // <--
 
 // Creating Book // -->
+
 
 function Book(title, author, totalPage, currentPage, bookIndex){
     this.title = title;
@@ -125,12 +148,15 @@ function addToLibrary(newBook){
 
     let minusButton = document.createElement('button')
     minusButton.setAttribute('class', 'minusButton')
+    minusButton.setAttribute('data-book', newBook.bookIndex)
     minusButton.innerHTML = "-"
     let plusButton = document.createElement('button')
     plusButton.setAttribute('class', 'plusButton')
+    plusButton.setAttribute('data-book', newBook.bookIndex)
     plusButton.innerHTML = "+"
     let readButton = document.createElement('button')
     readButton.setAttribute('class', 'readButton')
+    readButton.setAttribute('data-book', newBook.bookIndex)
     readButton.innerHTML = "Mark as Read"
     div.append(minusButton)
     div.append(plusButton)
@@ -139,6 +165,7 @@ function addToLibrary(newBook){
     
     let pageContent = document.createElement('div')
     pageContent.setAttribute('class', 'pageContent')
+    pageContent.setAttribute('data-book', newBook.bookIndex)
     
     let currentMarker = document.createElement('div')
     currentMarker.setAttribute('class', 'currentMarker' )
@@ -157,13 +184,83 @@ function addToLibrary(newBook){
 
     let editButton = document.createElement('button')
     editButton.setAttribute('class', 'editButton')
+    editButton.setAttribute('data-book', newBook.bookIndex)
     editButton.innerHTML = "Edit"
     div.append(editButton)
 
+    removeMinusButtonListeners();
 
     cardContainer.append(div)
 
+    minusButtons = document.getElementsByClassName('minusButton')
+    plusButtons = document.getElementsByClassName('plusButton')
+    minusButtons = Array.from(minusButtons)
+    plusButtons = Array.from(minusButtons)
 
-}
+    minusButtons.forEach(item => {
+    item.addEventListener('click', handleMinusButtonClick);
+  }
+)}
+
+
+minusButtons.forEach(item => {
+    
+    item.addEventListener('click', function(){
+    plusButton = this.nextElementSibling
+    readButton = plusButton.nextElementSibling
+    pageContent = readButton.nextElementSibling
+    currentMarker = pageContent.children[0]        
+    currentMarkerValue = parseInt(currentMarker.innerHTML)
+    
+    
+    if (currentMarkerValue > 0){
+        currentMarkerValue--
+        currentMarker.innerHTML = currentMarkerValue
+    }
+    
+    updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue)
+    
+})
+
+});
+
 
 // Creating Book // <--
+removeMinusButtonListeners()
+
+
+function removeMinusButtonListeners() {
+  minusButtons.forEach(item => {
+    item.removeEventListener('click', handleMinusButtonClick);
+  });
+}
+
+function handleMinusButtonClick() {
+  plusButton = this.nextElementSibling;
+  readButton = plusButton.nextElementSibling;
+  pageContent = readButton.nextElementSibling;
+  currentMarker = pageContent.children[0];
+  currentMarkerValue = parseInt(currentMarker.innerHTML);
+
+  if (currentMarkerValue > 0) {
+    currentMarkerValue--;
+    currentMarker.innerHTML = currentMarkerValue;
+  }
+
+  updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue);
+}
+
+
+
+
+function updateBook(bookIndex, valueType, valueToChange){
+    myLibraryStorage = myLibraryStorage.map(item => {
+        if (item.bookIndex === parseInt(bookIndex)){
+            item[valueType] = valueToChange
+            return item
+        }else{
+            return item;
+        }
+    })
+}
+
