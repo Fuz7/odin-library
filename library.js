@@ -190,7 +190,7 @@ function addToLibrary(newBook){
     div.append(editButton)
 
     removeMinusButtonListeners();
-    removePlusButtonListeners()
+    removePlusButtonListeners();
 
     cardContainer.append(div)
 
@@ -211,43 +211,11 @@ function addToLibrary(newBook){
 
 
 minusButtons.forEach(item => {
-    
-    item.addEventListener('click', function(){
-    plusButton = this.nextElementSibling
-    readButton = plusButton.nextElementSibling
-    pageContent = readButton.nextElementSibling
-    currentMarker = pageContent.children[0]        
-    currentMarkerValue = parseInt(currentMarker.innerHTML)
-    
-    
-    if (currentMarkerValue > 0){
-        currentMarkerValue--
-        currentMarker.innerHTML = currentMarkerValue
-    }
-    
-    updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue)
-    
+    item.addEventListener('click', handleMinusButtonClick);
 })
-
-});
-
-plusButtons.forEach(item =>{
     
-    item.addEventListener('click',function(){
-        readButton = this.nextElementSibling
-        pageContent = readButton.nextElementSibling
-        currentMarker = pageContent.children[0]
-        totalMarker = pageContent.children[2]
-        currentMarkerValue = parseInt(currentMarker.innerHTML)
-        totalMarkerValue = parseInt(totalMarker.innerHTML)
-        
-        if (currentMarkerValue < totalMarkerValue){
-            currentMarkerValue++
-            currentMarker.innerHTML = currentMarkerValue
-        }
-
-        updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue)
-    })
+plusButtons.forEach(item =>{
+    item.addEventListener('click', handlePlusButtonClick)    
 })
 
 
@@ -256,8 +224,7 @@ plusButtons.forEach(item =>{
 
 // Edit Card Content // -->
 
-removeMinusButtonListeners()
-removePlusButtonListeners()
+
 
 function removeMinusButtonListeners() {
   minusButtons.forEach(item => {
