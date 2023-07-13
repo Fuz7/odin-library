@@ -145,7 +145,7 @@ nav{
 
 .menuOption input:focus ~ label,
 .menuOption input:valid ~ label,
-#addCompleted:not(:placeholder-shown) ~ label{
+.addCurrent:not(:placeholder-shown) ~ label{
     top: -23px;
     background-color: rgb(202, 201, 201);
     padding: 1px 6px;
@@ -158,7 +158,7 @@ nav{
 
 .menuOption input:focus-visible,
 .menuOption input:valid,
-#addCompleted:not(:placeholder-shown){
+.addCurrent:not(:placeholder-shown){
     outline-offset: 2px;
     outline-style: ridge;
     outline-width: 1px;
@@ -177,11 +177,11 @@ form{
     gap: 50px;
 }
 
-#addCompleted ~ p{
+.addCurrent ~ p{
     position: relative;
 }
 
-#addCompleted:not(:placeholder-shown) ~ p.invalid:before{
+.addCurrent:not(:placeholder-shown) ~ p.invalid:before{
     top: 3px;
     left: 0px;
     position: absolute;
@@ -232,7 +232,7 @@ form{
     background-color: red;
 }
 
-.editCard{
+.editButton{
     grid-area: 6 / 1 / 7 / 3;
     border: 0px;
     font-size: 30px;
@@ -245,7 +245,7 @@ form{
     transition: background-color .2s ease;
 }
 
-.editCard:hover{
+.editButton:hover{
     background-color: #39aa00;
 }
 

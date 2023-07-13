@@ -14,8 +14,8 @@
    <!--  -->
    <main id="mainContainer" class="mainContainer">
         <button id="addButton" class="addButton">+</button>
-        <div class="cardContainer">
-            <div class="card">
+        <div id="cardContainer" class="cardContainer">
+            <div class="card" data-book="1">
                 <button class="deleteCard">Delete</button>
                 <div class="cardContent">
                     <div class="titleContent">Atomic Habits</div>
@@ -25,16 +25,16 @@
                 <button class="plusButton">+</button>
                 <button class="readButton">Mark as Read</button>
                 <div class="pageContent">
-                    <div id="startMarker">1</div>
+                    <div class="currentMarker">1</div>
                     <div>|</div>
-                    <div id="totalMarker">20</div>
+                    <div class="totalMarker">20</div>
                 </div>
-                <button class="editCard">Edit</button>
+                <button class="editButton">Edit</button>
             </div>
             <div class="card"></div>
             <div class="card"></div>
             <div class="card"></div>
-            <div class="card"></div>
+            <div class="card"  data-book="5"></div>
         </div>
    </main>
    <div id="addContainer" class="addContainer">
@@ -45,23 +45,23 @@
             <form id="form" novalidate>
 
                 <div class="menuOption">
-                    <input id="addTitle" type="text" required>
+                    <input id="addTitle" class="addTitle" type="text" required>
                     <label for="addTitle">Title</label>
                 </div>
                         
                 <div class="menuOption">
-                    <input id="addAuthor" type="text" required>
+                    <input id="addAuthor" class="addAuthor" type="text" required>
                     <label for="addAuthor">Author</label>
                 </div>
                 
                 <div class="menuOption">
-                    <input id="totalPage" type="number" min="1" required>
+                    <input id="totalPage" class="totalPage" type="number" min="1" required>
                     <label for="totalPage">Total Pages</label>
                 </div>
                 
                 <div class="menuOption">
-                    <input placeholder=" " id="addCompleted" type="number" min="0" required>
-                    <label for="addCompleted">Completed Pages</label>
+                    <input placeholder=" " id="addCurrent" class="addCurrent" type="number" min="0" required>
+                    <label for="addCurrent">Completed Pages</label>
                     <p id="completedLog"></p>
                 </div>
                 
