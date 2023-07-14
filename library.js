@@ -18,8 +18,11 @@ let cancelButton = document.getElementById('menuDelete')
 
 let minusButtons = document.getElementsByClassName('minusButton')
 let plusButtons = document.getElementsByClassName('plusButton')
+let readButtons = document.getElementsByClassName('readButton')
+
 minusButtons = Array.from(minusButtons)
 plusButtons = Array.from(plusButtons)
+readButtons = Array.from(readButtons)
 
 let book1 = new Book("Atomic Habits","James Clear",242,10, 1)
 addToLibrary(book1)
@@ -191,13 +194,16 @@ function addToLibrary(newBook){
 
     removeMinusButtonListeners();
     removePlusButtonListeners();
+    removeMarkAsReadListeners()
 
     cardContainer.append(div)
 
     minusButtons = document.getElementsByClassName('minusButton')
     plusButtons = document.getElementsByClassName('plusButton')
+    readButtons = document.getElementsByClassName('readButton')
     minusButtons = Array.from(minusButtons)
     plusButtons = Array.from(plusButtons)
+    readButtons = Array.from(readButtons)
 
     minusButtons.forEach(item => {
         item.addEventListener('click', handleMinusButtonClick);
@@ -206,6 +212,7 @@ function addToLibrary(newBook){
     plusButtons.forEach(item =>{
         item.addEventListener('click', handlePlusButtonClick)    
     })
+
 
 }
 
@@ -218,7 +225,9 @@ plusButtons.forEach(item =>{
     item.addEventListener('click', handlePlusButtonClick)    
 })
 
-
+readButtons.forEach(item =>{
+    item.addEventListener('click', handleMarkAsReadButtonClick)
+})
 
 // Creating Book // <--
 
@@ -302,4 +311,29 @@ function toggleCard(currentMarkerValue,totalMarkerValue,cardContent){
     }else{
         cardContent.classList.remove('read')
     }
+}
+
+function removeMarkAsReadListeners(){
+    readButtons.forEach(item => {
+        item.removeEventListener('click', handleMarkAsReadButtonClick)
+    });
+}
+
+function handleMarkAsReadButtonClick(){
+    plusButton = this.previousElementSibling
+    minusButton = plusButton.previousElementSibling;
+    cardContent = minusButton.previousElementSibling;
+
+    pageContent = this.nextElementSibling;
+    currentMarker = pageContent.children[0]
+    currentMarkerValue = parseInt(currentMarker.innerHTML)
+    totalMarker = pageContent.children[2]
+    totalMarkerValue = parseInt(totalMarker.innerHTML)
+
+    currentMarkerValue = totalMarkerValue;
+    currentMarker.innerHTML = totalMarkerValue;
+
+    updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue)
+
+    cardContent.classList.add('read')
 }
