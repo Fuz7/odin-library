@@ -233,17 +233,24 @@ function removeMinusButtonListeners() {
 }
 
 function handleMinusButtonClick() {
-  plusButton = this.nextElementSibling;
-  readButton = plusButton.nextElementSibling;
-  pageContent = readButton.nextElementSibling;
-  currentMarker = pageContent.children[0];
-  currentMarkerValue = parseInt(currentMarker.innerHTML);
+    cardContent = this.previousElementSibling;
 
-  if (currentMarkerValue > 0) {
-    currentMarkerValue--;
-    currentMarker.innerHTML = currentMarkerValue;
-    updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue);
-  }
+    plusButton = this.nextElementSibling;
+    readButton = plusButton.nextElementSibling;
+    pageContent = readButton.nextElementSibling;
+    currentMarker = pageContent.children[0];
+    currentMarkerValue = parseInt(currentMarker.innerHTML);
+    totalMarker = pageContent.children[0];
+    totalMarkerValue = parseInt(totalMarker.innerHTML)
+
+    if (currentMarkerValue > 0) {
+        currentMarkerValue--;
+        currentMarker.innerHTML = currentMarkerValue;
+        updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue);
+    }
+
+    toggleCard(currentMarkerValue, totalMarkerValue, cardContent)
+
 
 }
 
@@ -256,20 +263,24 @@ function removePlusButtonListeners(){
 }
 
 function handlePlusButtonClick(){
-        readButton = this.nextElementSibling
-        pageContent = readButton.nextElementSibling
-        currentMarker = pageContent.children[0]
-        totalMarker = pageContent.children[2]
-        currentMarkerValue = parseInt(currentMarker.innerHTML)
-        totalMarkerValue = parseInt(totalMarker.innerHTML)
-        
-        if (currentMarkerValue < totalMarkerValue){
-            currentMarkerValue++
-            currentMarker.innerHTML = currentMarkerValue
-            updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue)
-        }
+    minusButton = this.previousElementSibling;
+    cardContent = minusButton.previousElementSibling
 
+    readButton = this.nextElementSibling
+    pageContent = readButton.nextElementSibling
+    currentMarker = pageContent.children[0]
+    totalMarker = pageContent.children[2]
+    currentMarkerValue = parseInt(currentMarker.innerHTML)
+    totalMarkerValue = parseInt(totalMarker.innerHTML)
     
+    if (currentMarkerValue < totalMarkerValue){
+        currentMarkerValue++
+        currentMarker.innerHTML = currentMarkerValue
+        updateBook(this.getAttribute('data-book'), "currentPage", currentMarkerValue)
+    }
+
+
+    toggleCard(currentMarkerValue, totalMarkerValue, cardContent)
 
 }
 
@@ -285,3 +296,10 @@ function updateBook(bookIndex, valueType, valueToChange){
 }
 
 
+function toggleCard(currentMarkerValue,totalMarkerValue,cardContent){
+    if (currentMarkerValue === totalMarkerValue){
+        cardContent.classList.add('read')
+    }else{
+        cardContent.classList.remove('read')
+    }
+}

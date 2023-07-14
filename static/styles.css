@@ -288,7 +288,7 @@ form{
     transition: color .5s ease, background-color .5s ease;
 }
 
-.cardContent.active{
+.cardContent.read{
     color: black;
     background-color: #e2bc43;
 }
