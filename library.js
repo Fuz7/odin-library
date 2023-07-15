@@ -19,10 +19,16 @@ let cancelButton = document.getElementById('menuDelete')
 let minusButtons = document.getElementsByClassName('minusButton')
 let plusButtons = document.getElementsByClassName('plusButton')
 let readButtons = document.getElementsByClassName('readButton')
+let deleteButtons = document.getElementsByClassName('deleteCard')
+
+let confirmDeleteButton = document.getElementById('deleteButton')
+let deleteContainer = document.getElementsByClassName('deleteContainer')[0]
+
 
 minusButtons = Array.from(minusButtons)
 plusButtons = Array.from(plusButtons)
 readButtons = Array.from(readButtons)
+deleteButtons = Array.from(deleteButtons)
 
 let book1 = new Book("Atomic Habits","James Clear",242,10, 1)
 addToLibrary(book1)
@@ -32,6 +38,7 @@ addToLibrary(book2)
 let card = document.getElementsByClassName('card')
 card = Array.from(card)
 let bookIndex = Number((card[card.length - 1]).getAttribute('data-book')) +  1
+let cardId;
 
 let myLibraryStorage = [];
 myLibraryStorage.push(book1)
@@ -127,10 +134,12 @@ function addToLibrary(newBook){
     let div = document.createElement('div') 
     div.setAttribute('class', 'card')
     div.setAttribute('data-book', newBook.bookIndex)
+    div.setAttribute('id', 'card' + newBook.bookIndex)
 
     // for the cards layout
     let deleteButton = document.createElement('button')
     deleteButton.setAttribute('class', 'deleteCard')
+    deleteButton.setAttribute('data-book', newBook.bookIndex)
     deleteButton.innerHTML = 'Delete'
     div.append(deleteButton)
 
@@ -195,15 +204,18 @@ function addToLibrary(newBook){
     removeMinusButtonListeners();
     removePlusButtonListeners();
     removeMarkAsReadListeners()
+    removeDeleteButtonListeners
 
     cardContainer.append(div)
 
     minusButtons = document.getElementsByClassName('minusButton')
     plusButtons = document.getElementsByClassName('plusButton')
     readButtons = document.getElementsByClassName('readButton')
+    deleteButtons = document.getElementsByClassName('deleteCard')
     minusButtons = Array.from(minusButtons)
     plusButtons = Array.from(plusButtons)
     readButtons = Array.from(readButtons)
+    deleteButtons = Array.from(deleteButtons)
 
     minusButtons.forEach(item => {
         item.addEventListener('click', handleMinusButtonClick);
@@ -213,6 +225,13 @@ function addToLibrary(newBook){
         item.addEventListener('click', handlePlusButtonClick)    
     })
 
+    readButtons.forEach(item =>{
+        item.addEventListener('click', handleMarkAsReadButtonClick)
+    })
+    
+    deleteButtons.forEach(item =>{
+        item.addEventListener('click', handleDeleteButtonClick)
+    })
 
 }
 
@@ -227,6 +246,10 @@ plusButtons.forEach(item =>{
 
 readButtons.forEach(item =>{
     item.addEventListener('click', handleMarkAsReadButtonClick)
+})
+
+deleteButtons.forEach(item =>{
+    item.addEventListener('click', handleDeleteButtonClick)
 })
 
 // Creating Book // <--
@@ -338,3 +361,43 @@ function handleMarkAsReadButtonClick(){
     cardContent.classList.add('read')
 }
 
+function removeDeleteButtonListeners(){
+    deleteButtons.forEach(item =>{
+        item.removeEventListener('click', handleDeleteButtonClick)
+    })
+}
+
+function handleDeleteButtonClick(){
+    let card = this.parentElement
+    let cardContainer = card.parentElement;
+    let mainContainer = cardContainer.parentElement;
+    let addContainer = mainContainer.nextElementSibling;
+    let deleteContainer = addContainer.nextElementSibling;
+
+    deleteContainer.classList.add('active')
+
+    cardId  = "card" + this.getAttribute('data-book')
+}
+
+
+cancelButton = document.getElementsByClassName('cancelButton')[0]
+cancelButton.addEventListener('click', function(){
+
+    let deleteConfirmation = this.parentElement;
+    let deleteMenu = deleteConfirmation.parentElement;
+    let deleteContainer  = deleteMenu.parentElement;
+
+    deleteContainer.classList.remove('active')
+})
+
+confirmDeleteButton.addEventListener('click', function(){
+    deleteCard(cardId)
+})
+
+function deleteCard(cardId){
+    let card = document.getElementById(cardId)
+    if (card !== null){
+        card.remove()
+        deleteContainer.classList.remove('active')
+    }
+}
