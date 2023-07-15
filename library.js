@@ -337,3 +337,4 @@ function handleMarkAsReadButtonClick(){
 
     cardContent.classList.add('read')
 }
+
