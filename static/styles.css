@@ -71,6 +71,9 @@ nav{
     box-shadow: 0px 0px 20px #e2bc43;
 }
 
+.editMenu{
+    box-shadow: 0px 0px 20px #56ff00;
+}
 .menuTitle{
     background-color: #e2bc43;
     grid-column: 1/3;   
