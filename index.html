@@ -65,18 +65,56 @@
 
         </div>
 
-            <button id="menuDelete" class="menuDelete">Cancel</button>
+            <button id="menuCancel" class="menuCancel">Cancel</button>
             <button id="menuAdd" class="menuAdd">Add</button>
         </div>
    </div>
 
-   <div class="deleteContainer">
+   <div id="deleteContainer" class="deleteContainer">
         <div class="deleteMenu">
             <div class="deleteTitle">Delete This Card?</div>
             <div class="deleteConfirmation">
                 <button class="cancelButton">Cancel</button>
                 <button id="deleteButton" class="deleteButton">Delete</button>
             </div>
+        </div>
+   </div>
+
+
+   <div id="editContainer" class="editContainer">
+        <div id="editMenu" class="editMenu">
+            <div class="menuTitle"><p> Edit Book</p></div>
+            <div class="menuInputs">   
+
+            <form id="editForm" novalidate>
+
+                <div class="editMenuOption">
+                    <input id="editTitle" class="editTitle" type="text" required>
+                    <label for="editTitle">Title</label>
+                </div>
+                        
+                <div class="editMenuOption">
+                    <input id="editAuthor" class="addAuthor" type="text" required>
+                    <label for="editAuthor">Author</label>
+                </div>
+                
+                <div class="editMenuOption">
+                    <input id="editPage" class="totalPage" type="number" min="1" required>
+                    <label for="editPage">Total Pages</label>
+                </div>
+                
+                <div class="editMenuOption">
+                    <input placeholder=" " id="editCurrent" class="addCurrent" type="number" min="0" required>
+                    <label for="editCurrent">Completed Pages</label>
+                    <p id="editCompletedLog"></p>
+                </div>
+                
+            </form>
+
+        </div>
+
+            <button id="editMenuCancel" class="editMenuCancel">Cancel</button>
+            <button id="editMenuAdd" class="editMenuAdd">Edit</button>
         </div>
    </div>
 

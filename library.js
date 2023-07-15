@@ -4,6 +4,7 @@ let mainContainer = document.getElementById('mainContainer')
 let cardContainer = document.getElementById('cardContainer')
 
 let form = document.getElementById('form')
+let editForm = document.getElementById('editForm')
 let submitButton = document.getElementById('menuAdd')
 
 let titleInput = document.getElementById('addTitle')
@@ -11,24 +12,33 @@ let authorInput = document.getElementById('addAuthor')
 let totalPage = document.getElementById('totalPage')
 let currentPage = document.getElementById('addCurrent')
 
+let editCompletedLog = document.getElementById('editCompletedLog')
+let editTitleInput = document.getElementById('editTitle') 
+let editAuthorInput = document.getElementById('editAuthor')
+let editTotalPage = document.getElementById('editPage') 
+let editCurrentPage = document.getElementById('editCurrent')
+
 let completedLog = document.getElementById('completedLog')
 let menuContainer = document.getElementById('addContainer')
 let menuButton = document.getElementById('addButton')
-let cancelButton = document.getElementById('menuDelete')
+let cancelButton = document.getElementById('menuCancel')
+let editCancelButton = document.getElementById('editMenuCancel')
 
 let minusButtons = document.getElementsByClassName('minusButton')
 let plusButtons = document.getElementsByClassName('plusButton')
 let readButtons = document.getElementsByClassName('readButton')
 let deleteButtons = document.getElementsByClassName('deleteCard')
+let editButtons = document.getElementsByClassName('editButton')
 
 let confirmDeleteButton = document.getElementById('deleteButton')
-let deleteContainer = document.getElementsByClassName('deleteContainer')[0]
-
+let deleteContainer = document.getElementById('deleteContainer')
+let editContainer = document.getElementById('editContainer')
 
 minusButtons = Array.from(minusButtons)
 plusButtons = Array.from(plusButtons)
 readButtons = Array.from(readButtons)
 deleteButtons = Array.from(deleteButtons)
+editButtons = Array.from(editButtons)
 
 let book1 = new Book("Atomic Habits","James Clear",242,10, 1)
 addToLibrary(book1)
@@ -39,14 +49,11 @@ let card = document.getElementsByClassName('card')
 card = Array.from(card)
 let bookIndex = Number((card[card.length - 1]).getAttribute('data-book')) +  1
 let cardId;
+let currentBookIndex;
 
 let myLibraryStorage = [];
 myLibraryStorage.push(book1)
 myLibraryStorage.push(book2)
-
-
-
-
 
 
 
@@ -57,10 +64,26 @@ totalPage.addEventListener('input', function(){
 })
 
 
-
 currentPage.addEventListener('input', function(){
     toggleLog()
 })
+
+editTotalPage.addEventListener('input', function(){
+    editToggleLog()
+})
+
+editCurrentPage.addEventListener('input',function(){
+    editToggleLog()
+})
+
+function editToggleLog(){
+    if (editTotalPage.valueAsNumber < editCurrentPage.valueAsNumber){
+        editCompletedLog.classList.add('invalid')
+    } else if(editTotalPage.valueAsNumber >= editCurrentPage.valueAsNumber){
+        editCompletedLog.classList.remove('invalid')
+        editCurrentPage.setCustomValidity('')
+    }
+}
 
 function toggleLog(){
     if (totalPage.valueAsNumber < currentPage.valueAsNumber){
@@ -91,6 +114,8 @@ submitButton.addEventListener('click', function(e) {
     }
 })
 
+
+
 function emptyAddInput(){
     titleInput.value = "";
     authorInput.value = "";
@@ -105,6 +130,7 @@ function emptyAddInput(){
 
 function closeMenu(){
     menuContainer.classList.remove('active')
+    emptyAddInput()
 }
 
 function openMenu(){
@@ -204,7 +230,8 @@ function addToLibrary(newBook){
     removeMinusButtonListeners();
     removePlusButtonListeners();
     removeMarkAsReadListeners()
-    removeDeleteButtonListeners
+    removeDeleteButtonListeners()
+    removeEditButtonListeners()
 
     cardContainer.append(div)
 
@@ -212,14 +239,16 @@ function addToLibrary(newBook){
     plusButtons = document.getElementsByClassName('plusButton')
     readButtons = document.getElementsByClassName('readButton')
     deleteButtons = document.getElementsByClassName('deleteCard')
+    editButton = document.getElementsByClassName('editButton')
     minusButtons = Array.from(minusButtons)
     plusButtons = Array.from(plusButtons)
     readButtons = Array.from(readButtons)
     deleteButtons = Array.from(deleteButtons)
+    editButtons = Array.from(editButton)
 
     minusButtons.forEach(item => {
         item.addEventListener('click', handleMinusButtonClick);
-  })
+    })
     
     plusButtons.forEach(item =>{
         item.addEventListener('click', handlePlusButtonClick)    
@@ -231,6 +260,10 @@ function addToLibrary(newBook){
     
     deleteButtons.forEach(item =>{
         item.addEventListener('click', handleDeleteButtonClick)
+    })
+
+    editButtons.forEach(item =>{
+        item.addEventListener('click', handleEditButtonClick)
     })
 
     if (newBook.currentPage === newBook.totalPage){
@@ -254,6 +287,10 @@ readButtons.forEach(item =>{
 
 deleteButtons.forEach(item =>{
     item.addEventListener('click', handleDeleteButtonClick)
+})
+
+editButtons.forEach(item =>{
+    item.addEventListener('click', handleEditButtonClick)
 })
 
 // Creating Book // <--
@@ -412,3 +449,77 @@ function deleteCard(cardId){
         deleteContainer.classList.remove('active')
     }
 }
+
+function removeEditButtonListeners(){
+    editButtons.forEach(item =>{
+        item.removeEventListener('click', handleEditButtonClick)
+    })
+}
+
+function handleEditButtonClick(){
+    let myOutput = myLibraryStorage.find(item => item.bookIndex == this.getAttribute('data-book'))
+    editTitleInput.value = myOutput.title
+    editAuthorInput.value = myOutput.author
+    editTotalPage.value = myOutput.totalPage
+    editCurrentPage.value = myOutput.currentPage
+    editContainer.classList.add('active')
+
+    cardId = "card" + this.getAttribute("data-book")
+    currentBookIndex = this.getAttribute('data-book')
+
+}
+
+function emptyEditInput(){
+    editTitleInput.value = ""
+    editAuthorInput.value = ""
+    editTotalPage.value = ""
+    editCurrentPage.value = ""
+}
+
+editCancelButton.addEventListener('click', function(){
+    editContainer.classList.remove('active')
+    emptyEditInput()
+})
+
+let editConfirmButton = document.getElementById('editMenuAdd')
+
+editConfirmButton.addEventListener("click", ()=>{
+    
+    if(editForm.checkValidity() && (!editCompletedLog.classList.contains('invalid')) ){
+        updateCardContent(cardId)
+        updateBook(currentBookIndex, "title", editTitleInput.value)
+        updateBook(currentBookIndex, "author", editAuthorInput.value)
+        updateBook(currentBookIndex, "currentPage", parseInt(editCurrentPage.value))
+        updateBook(currentBookIndex, "totalPage", parseInt(editTotalPage.value))
+        editContainer.classList.remove('active')
+
+        
+        emptyEditInput()
+        
+    } else if(editCompletedLog.classList.contains('invalid')){
+        editCurrentPage.setCustomValidity('Completed page is higher than total page')
+        editForm.reportValidity()
+    } else{
+        editForm.reportValidity()
+    }
+    
+})
+
+function updateCardContent(cardId){
+    let card = document.getElementById(cardId)
+    let cardContent = card.children[1]
+    let titleContent = cardContent.children[0]
+    let authorContent = cardContent.children[1]
+    titleContent.innerHTML = editTitleInput.value
+    authorContent.innerHTML = editAuthorInput.value
+    let pageContent = card.children[5]
+    let currentMarker = pageContent.children[0]
+    let totalMarker = pageContent.children[2]
+    currentMarker.innerHTML = editCurrentPage.value
+    totalMarker.innerHTML = editTotalPage.value
+    if (editCurrentPage.valueAsNumber === editTotalPage.valueAsNumber){
+        cardContent.classList.add('read')
+    }else{
+        cardContent.classList.remove('read')
+    }
+}   

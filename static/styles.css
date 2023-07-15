@@ -47,6 +47,7 @@ nav{
 }
 
 .addContainer,
+.editContainer,
 .deleteContainer{
     height: 100%;
     width: 100%;
@@ -57,7 +58,8 @@ nav{
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.addMenu{
+.addMenu,
+.editMenu{
     width: 450px;
     height: 550px;
     background-color: #2a2630;
@@ -83,7 +85,8 @@ nav{
     font-weight: bold;
 }
 
-.menuDelete{
+.menuCancel,
+.editMenuCancel{
     grid-row: 3/4;
     grid-column: 1/2;
     background-color: #ff4d4d;
@@ -94,7 +97,8 @@ nav{
     cursor: pointer;
 }
 
-.menuAdd{
+.menuAdd,
+.editMenuAdd{
     grid-row: 3/4;
     grid-column: 2/3;
     background-color: #ebd07b;
@@ -104,11 +108,13 @@ nav{
     cursor: pointer;
 }
 
-.menuDelete:hover{
+.menuCancel:hover,
+.editMenuCancel:hover{
     background-color: #ff1a1a;
 }
 
-.menuAdd:hover{
+.menuAdd:hover,
+.editMenuAdd:hover{
     background-color: #e2bc43;
 }
 
@@ -117,13 +123,15 @@ nav{
     grid-column: 1/3;
 }
 
-.menuOption{
+.menuOption,
+.editMenuOption{
     position: relative;
     width: 75%;
     height: 30px;
 }
 
-.menuOption input{
+.menuOption input,
+.editMenuOption input{
     width: 100%;
     height: 100%;
     background-color: transparent;
@@ -134,7 +142,8 @@ nav{
 }
 
 
-.menuOption label{
+.menuOption label,
+.editMenuOption label{
     font-family: system-ui;
     position: absolute;
     top: -3px;
@@ -146,7 +155,9 @@ nav{
 
 .menuOption input:focus ~ label,
 .menuOption input:valid ~ label,
-.addCurrent:not(:placeholder-shown) ~ label{
+.addCurrent:not(:placeholder-shown) ~ label,
+.editMenuOption input:focus ~ label,
+.editMenuOption input:valid ~ label{
     top: -23px;
     background-color: rgb(202, 201, 201);
     padding: 1px 6px;
@@ -159,7 +170,9 @@ nav{
 
 .menuOption input:focus-visible,
 .menuOption input:valid,
-.addCurrent:not(:placeholder-shown){
+.addCurrent:not(:placeholder-shown),
+.editMenuOption input:focus-visible,
+.editMenuOption input:valid{
     outline-offset: 2px;
     outline-style: ridge;
     outline-width: 1px;
@@ -178,11 +191,13 @@ form{
     gap: 50px;
 }
 
-.addCurrent ~ p{
+.addCurrent ~ p,
+.editCurrent ~ p{
     position: relative;
 }
 
-.addCurrent:not(:placeholder-shown) ~ p.invalid:before{
+.addCurrent:not(:placeholder-shown) ~ p.invalid:before,
+.editCurrent:not(:placeholder-shown) ~ p.invalid:before{
     top: 3px;
     left: 0px;
     position: absolute;
@@ -190,11 +205,17 @@ form{
     color: red;
 }
 
-.addContainer{
+.addContainer,
+.editContainer{
     display: none;
 }
 
-.addContainer.active{
+.editContainer{
+    display: none;
+}
+
+.addContainer.active,
+.editContainer.active{
     display: flex;
 }
 
