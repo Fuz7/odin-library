@@ -233,6 +233,10 @@ function addToLibrary(newBook){
         item.addEventListener('click', handleDeleteButtonClick)
     })
 
+    if (newBook.currentPage === newBook.totalPage){
+        cardContent.classList.add('read')
+    }
+
 }
 
 
@@ -396,7 +400,14 @@ confirmDeleteButton.addEventListener('click', function(){
 
 function deleteCard(cardId){
     let card = document.getElementById(cardId)
+    let cardNum = parseInt(cardId.slice(4))
     if (card !== null){
+        for (let i = 0;i < myLibraryStorage.length;i++){
+            if (myLibraryStorage[i].bookIndex === cardNum){
+                myLibraryStorage.splice(i,1)
+            }
+        }
+
         card.remove()
         deleteContainer.classList.remove('active')
     }
