@@ -1,3 +1,13 @@
+class Book {
+    constructor(title, author, totalPage, currentPage, bookIndex){
+        this.title = title;
+        this.author = author;
+        this.totalPage = totalPage;
+        this.currentPage = currentPage;
+        this.bookIndex = bookIndex;
+    }
+}
+
 let navbar = document.getElementById('nav')
 let sidebar = document.getElementById('info')
 let mainContainer = document.getElementById('mainContainer')
@@ -144,16 +154,9 @@ cancelButton.addEventListener('click', () => closeMenu())
 
 // Menu Opening & Closing // <--
 
-// Creating Book // -->
+// Adding Book To Library // -->
 
 
-function Book(title, author, totalPage, currentPage, bookIndex){
-    this.title = title;
-    this.author = author;
-    this.totalPage = totalPage;
-    this.currentPage = currentPage;
-    this.bookIndex = bookIndex;
-}
 
 
 function addToLibrary(newBook){
